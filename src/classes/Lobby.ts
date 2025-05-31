@@ -2,9 +2,9 @@ import Player from "@/classes/Player";
 
 class Lobby {
     code: string
-    players: PlayerList
+    players: Player[]
 
-    constructor(code: string, players: PlayerList) {
+    constructor(code: string, players: Player[]) {
         this.code = code
         this.players = players
     }

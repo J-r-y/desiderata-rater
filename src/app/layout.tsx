@@ -1,11 +1,9 @@
 import type {Metadata} from "next";
-import {Geist, Geist_Mono, Roboto} from "next/font/google";
+import {Roboto} from "next/font/google";
 import "./globals.css";
 import {Toaster} from "@/components/ui/sonner";
-import {ThemeProvider} from "@/components/theme-provider";
-import {SocketProvider} from "@/components/socket-provider";
+import {ThemeProvider} from "@/components/provider/theme-provider";
 import * as React from "react";
-import io from "socket.io-client";
 
 const roboto = Roboto({
     subsets: ["latin"],

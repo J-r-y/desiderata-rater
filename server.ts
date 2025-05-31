@@ -4,7 +4,6 @@ import {parse} from "url"
 import next from "next"
 import Lobby from "@/classes/Lobby"
 import Player from "@/classes/Player"
-import EVENT_TYPE from "@/classes/EventType"
 
 const port = parseInt(process.env.PORT || "3000", 10)
 const dev = process.env.NODE_ENV !== "production"
@@ -28,7 +27,7 @@ app.prepare().then(() => {
             let currentLobby = null
             lobbies.forEach(lobby => {
                 if (lobby.code === payload.code.toString()) {
-                    lobby.players[socket.id] = new Player(payload.name, socket.id, "Sinn")
+                    lobby.players.push(new Player(payload.name, socket.id, ""))
                     currentLobby = lobby
                 }
             })
@@ -48,6 +47,6 @@ app.prepare().then(() => {
     })
 })
 
-const lobby = new Lobby("123", {});
+const lobby = new Lobby("123", []);
 
 const lobbies: Lobby[] = [lobby]
