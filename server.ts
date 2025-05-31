@@ -25,18 +25,16 @@ app.prepare().then(() => {
 
         socket.on("tryJoin", (data: string) => {
             const payload = JSON.parse(data)
+            let currentLobby = null
             lobbies.forEach(lobby => {
                 if (lobby.code === payload.code.toString()) {
                     lobby.players[socket.id] = new Player(payload.name, socket.id, "Sinn")
-                    socket.emit("join", JSON.stringify({
-                        lobby: lobby,
-                    }))
-                } else {
-                    socket.emit("join", JSON.stringify({
-                        lobby: null,
-                    }))
+                    currentLobby = lobby
                 }
             })
+            socket.emit("join", JSON.stringify({
+                lobby: currentLobby,
+            }))
         })
 
         socket.on("chose", (data: string) => {

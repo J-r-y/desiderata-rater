@@ -2,6 +2,10 @@ import type {Metadata} from "next";
 import {Geist, Geist_Mono, Roboto} from "next/font/google";
 import "./globals.css";
 import {Toaster} from "@/components/ui/sonner";
+import {ThemeProvider} from "@/components/theme-provider";
+import {SocketProvider} from "@/components/socket-provider";
+import * as React from "react";
+import io from "socket.io-client";
 
 const roboto = Roboto({
     subsets: ["latin"],
@@ -18,8 +22,15 @@ export default function RootLayout({children}: Readonly<{ children: React.ReactN
         <body
             className={`${roboto.className} antialiased`}
         >
-        <Toaster/>
-        {children}
+        <ThemeProvider
+            attribute={"class"}
+            defaultTheme={"system"}
+            enableSystem
+            disableTransitionOnChange
+        >
+            <Toaster className={"absolute top-2 left-1/2 transform -translate-x-1/2"}/>
+            {children}
+        </ThemeProvider>
         </body>
         </html>
     );
