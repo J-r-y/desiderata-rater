@@ -22,18 +22,26 @@ app.prepare().then(() => {
 
     io.on("connection", (socket) => {
         console.log("Client connected")
-        lobbies[0].players[socket.id] = new Player("Jry", socket.id, "Sinn")
 
-        socket.send(JSON.stringify({
-            type: EVENT_TYPE.INITIAL_DATA,
-            payload: lobbies[0]
-        }))
+        socket.on("tryJoin", (data: string) => {
+            const payload = JSON.parse(data)
+            lobbies.forEach(lobby => {
+                if (lobby.code === payload.code.toString()) {
+                    lobby.players[socket.id] = new Player(payload.name, socket.id, "Sinn")
+                    socket.emit("join", JSON.stringify({
+                        lobby: lobby,
+                    }))
+                } else {
+                    socket.emit("join", JSON.stringify({
+                        lobby: null,
+                    }))
+                }
+            })
+        })
 
         socket.on("chose", (data: string) => {
             const parsedData = JSON.parse(data)
-            if (parsedData.type === EVENT_TYPE.CHOSE) {
 
-            }
         })
 
         socket.on("close", () => {
