@@ -3,10 +3,11 @@
 import {useEffect, useState} from "react"
 import io, {Socket} from "socket.io-client"
 import {default as LobbyType} from "@/classes/Lobby"
-import {Lobby} from "@/components/game/lobby"
+import {Lobby} from "@/components/game/lobby/lobby"
 import {toast} from "sonner";
 import {SocketProvider} from "@/components/provider/socket-provider";
 import Menu from "@/components/game/menu";
+import Player from "@/classes/Player";
 
 export default function Home() {
     const [socket, setSocket] = useState<Socket>()
@@ -29,6 +30,7 @@ export default function Home() {
                 toast("Invalid Lobby Code")
             }
         })
+        setLobby(new LobbyType("123", [new Player("Jry", "id_", "", 0), new Player("Dummy", "id_2", "", 10)]))
 
         return () => {
             socket.close()
