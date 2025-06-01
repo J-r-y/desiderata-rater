@@ -46,7 +46,8 @@ export default function CardSelect() {
                 </div>
                 <DialogFooter>
                     <DialogClose asChild>
-                        <Button variant={"default"} className={"text-3xl p-6 shadow-md shadow-white"} onClick={selectCard}>Auswählen</Button>
+                        <Button variant={"default"} className={"text-3xl p-6 shadow-md shadow-white"}
+                                onClick={selectCard}>Auswählen</Button>
                     </DialogClose>
                 </DialogFooter>
             </DialogContent>

@@ -1,0 +1,5 @@
+.playercard {
+    offset-path: circle(35% at 50% 50%);
+    offset-rotate: 0deg;
+    offset-distance: -25%;
+}

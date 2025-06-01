@@ -20,8 +20,8 @@ export default function Menu() {
         }
     }
     return (
-        <div>
-            <div className="flex w-full max-w-sm items-center gap-2">
+        <div className="flex flex-col gap-2 items-center">
+            <div className="flex w-full max-w-sm items-center">
                 <Input type={"text"} placeholder={"Username"} onChange={(e) => setName(e.target.value)}/>
             </div>
             <div className="flex w-full max-w-sm items-center gap-2">

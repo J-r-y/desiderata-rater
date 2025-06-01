@@ -1,27 +1,30 @@
 "use client"
 
 import {default as LobbyType} from "@/classes/Lobby";
+import {default as PlayerType} from "@/classes/Player";
 import {useEffect, useState} from "react";
 import CardSelect from "@/components/game/lobby/cardSelect";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {useSocket} from "@/components/provider/socket-provider";
 import Game from "@/components/game/lobby/game";
 
-const GameState =  {
+const GameState = {
     SELECT: "select",
     GAME: "game",
 }
 
-export function Lobby({lobby}: { lobby: LobbyType }) {
+export function Lobby({player, lobby}: { player: PlayerType, lobby: LobbyType }) {
     const [state, setState] = useState<string>(GameState.SELECT)
+    const [players, setPlayers] = useState<PlayerType[]>(lobby.players.filter(p => p.id !== player.id))
     const {socket} = useSocket()
 
     useEffect(() => {
-        socket.on("startgame", (data: string) => {
+        socket.on("startround", (data: string) => {
             const payload = JSON.parse(data)
+            lobby = payload.lobby
             setState(GameState.GAME)
         })
-    })
+    }, [])
 
     return (
         <div>
@@ -31,13 +34,13 @@ export function Lobby({lobby}: { lobby: LobbyType }) {
                 </CardHeader>
                 <CardContent>
                     <ul>
-                        {lobby.players.map(player => <li key={player.id}>{player.name}: {player.points}</li>)}
+                        {lobby.players.map((player, i) => <li key={i}>{player.name}: {player.points}</li>)}
                     </ul>
                 </CardContent>
             </Card>
             {{
-                select: <CardSelect />,
-                game: <Game />,
+                select: <CardSelect/>,
+                game: <Game players={players}/>,
             }[state]}
         </div>
     )

@@ -25,14 +25,18 @@ app.prepare().then(() => {
         socket.on("tryJoin", (data: string) => {
             const payload = JSON.parse(data)
             let currentLobby = null
+            const player = new Player(payload.name, socket.id, "", 0)
             lobbies.forEach(lobby => {
                 if (lobby.code === payload.code.toString()) {
-                    lobby.players.push(new Player(payload.name, socket.id, ""))
-                    currentLobby = lobby
+                    if (lobby.players.length < 4) {
+                        lobby.players.push(player)
+                        currentLobby = lobby
+                    }
                 }
             })
             socket.emit("join", JSON.stringify({
                 lobby: currentLobby,
+                player: player,
             }))
         })
 
@@ -41,7 +45,14 @@ app.prepare().then(() => {
 
         })
 
-        socket.on("close", () => {
+        socket.on("disconnect", () => {
+            for (const lobby of lobbies) {
+                for (const player of lobby.players) {
+                    if (player.id === socket.id) {
+                        lobby.players.splice(lobby.players.indexOf(player), 1)
+                    }
+                }
+            }
             console.log("Client disconnected")
         })
     })
@@ -50,3 +61,5 @@ app.prepare().then(() => {
 const lobby = new Lobby("123", []);
 
 const lobbies: Lobby[] = [lobby]
+lobbies[1] = new Lobby("321", [new Player("Dummy 1", "id_1", "", 10),
+    new Player("Dummy 2", "id_2", "", 5), new Player("Dummy 3", "id_3", "", 0)])
