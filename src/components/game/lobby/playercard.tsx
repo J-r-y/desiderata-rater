@@ -11,7 +11,7 @@ export default function PlayerCard({player, index}: { player: PlayerType, index:
                 <CardTitle className={"text-1xl"}>{player.name}</CardTitle>
             </CardHeader>
             <CardContent>
-                <CardSelect/>
+                <CardSelect callback={() => {}}/>
             </CardContent>
         </Card>
     )

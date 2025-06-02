@@ -33,10 +33,10 @@ export default function Home() {
                 toast("Invalid Lobby Code")
             }
         })
-        // const cplayer = new PlayerType("Jry", "id_", "", 0)
+        // const cplayer = new PlayerType("Jry", "id_", "", "", 0)
         // setPlayer(cplayer)
-        // setLobby(new LobbyType("123", [cplayer, new PlayerType("Dummy 1", "id_1", "", 10),
-        //     new PlayerType("Dummy 2", "id_2", "", 5), new PlayerType("Dummy 3", "id_3", "", 0)]))
+        // setLobby(new LobbyType("123", [cplayer, new PlayerType("Dummy 1", "id_1", "", "", 10),
+        //     new PlayerType("Dummy 2", "id_2", "", "", 5), new PlayerType("Dummy 3", "id_3", "", "", 0)]))
 
         return () => {
             socket.close()

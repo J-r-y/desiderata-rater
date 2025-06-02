@@ -25,15 +25,17 @@ app.prepare().then(() => {
         socket.on("tryJoin", (data: string) => {
             const payload = JSON.parse(data)
             let currentLobby = null
-            const player = new Player(payload.name, socket.id, "", 0)
-            lobbies.forEach(lobby => {
-                if (lobby.code === payload.code.toString()) {
-                    if (lobby.players.length < 4) {
-                        lobby.players.push(player)
-                        currentLobby = lobby
-                    }
-                }
-            })
+            const player = new Player(payload.name, socket.id, "", "", 0)
+            try {
+                const code = payload.code.toString()
+                lobbies[code].addPlayer(player)
+                currentLobby = lobbies[code]
+                playerIdToCode[socket.id] = code
+                player.lobbyCode = code
+            } catch (e: TypeError | any) {
+                console.log("Player tried to join non-existent lobby: " + payload.code)
+            }
+
             socket.emit("join", JSON.stringify({
                 lobby: currentLobby,
                 player: player,
@@ -46,20 +48,20 @@ app.prepare().then(() => {
         })
 
         socket.on("disconnect", () => {
-            for (const lobby of lobbies) {
-                for (const player of lobby.players) {
-                    if (player.id === socket.id) {
-                        lobby.players.splice(lobby.players.indexOf(player), 1)
-                    }
-                }
-            }
+            getLobbyByPlayerId(socket.id).removePlayer(socket.id)
             console.log("Client disconnected")
         })
     })
 })
 
-const lobby = new Lobby("123", []);
+const getLobbyByPlayerId = (playerId: string) => {
+    const lobbyCode = playerIdToCode[playerId]
+    return lobbies[lobbyCode]
+}
 
-const lobbies: Lobby[] = [lobby]
-lobbies[1] = new Lobby("321", [new Player("Dummy 1", "id_1", "", 10),
-    new Player("Dummy 2", "id_2", "", 5), new Player("Dummy 3", "id_3", "", 0)])
+const playerIdToCode: { [id: string]: string } = {}
+
+const lobby = new Lobby("123", []);
+const lobbies: { [code: string]: Lobby } = {"123": lobby}
+lobbies["321"] = new Lobby("321", [new Player("Dummy 1", "id_1", "321", "", 10),
+    new Player("Dummy 2", "id_2", "321", "", 5), new Player("Dummy 3", "id_3", "321", "", 0)])

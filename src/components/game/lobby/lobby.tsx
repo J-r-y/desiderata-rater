@@ -26,8 +26,14 @@ export function Lobby({player, lobby}: { player: PlayerType, lobby: LobbyType })
         })
     }, [])
 
+    const selectCard = (card: string) => {
+        socket.emit("chose", JSON.stringify({
+            card: card,
+        }))
+    }
+
     return (
-        <div>
+        <div className={"flex flex-col items-center justify-center"}>
             <Card className={"absolute top-5 left-5 min-w-24 gap-2"}>
                 <CardHeader>
                     <CardTitle>Punkte</CardTitle>
@@ -39,7 +45,7 @@ export function Lobby({player, lobby}: { player: PlayerType, lobby: LobbyType })
                 </CardContent>
             </Card>
             {{
-                select: <CardSelect/>,
+                select: <CardSelect callback={selectCard}/>,
                 game: <Game players={players}/>,
             }[state]}
         </div>

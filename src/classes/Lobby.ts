@@ -8,6 +8,14 @@ class Lobby {
         this.code = code
         this.players = players
     }
+
+    addPlayer(player: Player) {
+        this.players.push(player)
+    }
+
+    removePlayer(playerId: string) {
+        this.players.filter(p => p.id !== playerId)
+    }
 }
 
 interface PlayerList {

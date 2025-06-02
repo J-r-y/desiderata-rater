@@ -1,6 +1,5 @@
 import {Button} from "@/components/ui/button";
-import {MouseEvent, useEffect, useState} from "react";
-import {useSocket} from "@/components/provider/socket-provider";
+import {useEffect, useState} from "react";
 import {
     Dialog,
     DialogClose,
@@ -14,15 +13,12 @@ import {
 const unselectedStyle = "text-xl h-12 " + "shadow-sm shadow-zinc-800"
 const selectedStyle = "text-xl h-12 " + "bg-zinc-800/50 shadow-[inset_0_0_4px_2px_rgba(255,255,255,30%)]"
 
-export default function CardSelect() {
+export default function CardSelect({ callback }: { callback: (card: string) => void}) {
     const [desideratas, setDesideratas] = useState<string[]>([])
     const [selected, setSelected] = useState<string>("")
-    const {socket} = useSocket()
 
     const selectCard = () => {
-        socket.emit("chose", JSON.stringify({
-            card: selected,
-        }))
+        callback(selected)
     }
 
     useEffect(() => {
