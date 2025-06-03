@@ -1,5 +1,5 @@
 import {default as PlayerType} from "@/classes/Player"
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {Card, CardAction, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import "@/app/game.css"
 import CardSelect from "@/components/game/lobby/cardSelect";
 

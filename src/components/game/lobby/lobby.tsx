@@ -14,7 +14,7 @@ const GameState = {
 }
 
 export function Lobby({player, lobby}: { player: PlayerType, lobby: LobbyType }) {
-    const [state, setState] = useState<string>(GameState.SELECT)
+    const [state, setState] = useState<string>(GameState.GAME)
     const [players, setPlayers] = useState<PlayerType[]>(lobby.players.filter(p => p.id !== player.id))
     const {socket} = useSocket()
 
@@ -22,9 +22,14 @@ export function Lobby({player, lobby}: { player: PlayerType, lobby: LobbyType })
         socket.on("startround", (data: string) => {
             const payload = JSON.parse(data)
             lobby = payload.lobby
+            filterPlayers(lobby.players)
             setState(GameState.GAME)
         })
     }, [])
+
+    const filterPlayers = (players: PlayerType[]) => {
+        setPlayers(players.filter(p => p.id !== player.id))
+    }
 
     const selectCard = (card: string) => {
         socket.emit("chose", JSON.stringify({

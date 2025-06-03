@@ -9,6 +9,15 @@ import {
     DialogTitle,
     DialogTrigger
 } from "@/components/ui/dialog";
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent, DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger
+} from "@/components/ui/drawer";
 
 const unselectedStyle = "text-xl h-12 " + "shadow-sm shadow-zinc-800"
 const selectedStyle = "text-xl h-12 " + "bg-zinc-800/50 shadow-[inset_0_0_4px_2px_rgba(255,255,255,30%)]"
@@ -26,27 +35,50 @@ export default function CardSelect({ callback }: { callback: (card: string) => v
     }, []);
 
     return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button variant={"outline"} className={"text-3xl h-12"}>Desiderata auswählen</Button>
-            </DialogTrigger>
-            <DialogContent className={"flex flex-col gap-10 items-center justify-center w-50vw"}>
-                <DialogHeader>
-                    <DialogTitle className={"text-3xl"}>Desiderata auswählen</DialogTitle>
-                </DialogHeader>
+        <Drawer>
+            <DrawerTrigger asChild>
+                <Button variant={"outline"} className={"text-3xl h-12 cursor-pointer"}>Desiderata auswählen</Button>
+            </DrawerTrigger>
+            <DrawerContent className={"flex flex-col gap-10 items-center justify-center w-50vw"}>
+                <DrawerHeader>
+                    <DrawerTitle className={"text-3xl"}>Desiderata auswählen</DrawerTitle>
+                </DrawerHeader>
+                <DrawerDescription></DrawerDescription>
                 <div className={"flex gap-2 content-center justify-center flex-wrap"}>
                     {desideratas!.map((desiderata, i) => <Button key={i} variant={"secondary"}
                                                                  onClick={(e) => setSelected(e.currentTarget.innerText)}
                                                                  className={selected == desiderata ? selectedStyle : unselectedStyle}>{desiderata}</Button>
                     )}
                 </div>
-                <DialogFooter>
-                    <DialogClose asChild>
+                <DrawerFooter>
+                    <DrawerClose asChild>
                         <Button variant={"default"} className={"text-3xl p-6 shadow-md shadow-white"}
                                 onClick={selectCard}>Auswählen</Button>
-                    </DialogClose>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
+                    </DrawerClose>
+                </DrawerFooter>
+            </DrawerContent>
+        </Drawer>
+        // <Dialog>
+        //     <DialogTrigger asChild>
+        //         <Button variant={"outline"} className={"text-3xl h-12 cursor-pointer"}>Desiderata auswählen</Button>
+        //     </DialogTrigger>
+        //     <DialogContent className={"flex flex-col gap-10 items-center justify-center w-50vw"}>
+        //         <DialogHeader>
+        //             <DialogTitle className={"text-3xl"}>Desiderata auswählen</DialogTitle>
+        //         </DialogHeader>
+        //         <div className={"flex gap-2 content-center justify-center flex-wrap"}>
+        //             {desideratas!.map((desiderata, i) => <Button key={i} variant={"secondary"}
+        //                                                          onClick={(e) => setSelected(e.currentTarget.innerText)}
+        //                                                          className={selected == desiderata ? selectedStyle : unselectedStyle}>{desiderata}</Button>
+        //             )}
+        //         </div>
+        //         <DialogFooter>
+        //             <DialogClose asChild>
+        //                 <Button variant={"default"} className={"text-3xl p-6 shadow-md shadow-white"}
+        //                         onClick={selectCard}>Auswählen</Button>
+        //             </DialogClose>
+        //         </DialogFooter>
+        //     </DialogContent>
+        // </Dialog>
     )
 }

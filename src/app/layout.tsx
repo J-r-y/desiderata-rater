@@ -20,13 +20,13 @@ export default function RootLayout({children}: Readonly<{ children: React.ReactN
         <body
             className={`${roboto.className} antialiased`}
         >
+        <Toaster/>
         <ThemeProvider
             attribute={"class"}
             defaultTheme={"system"}
             enableSystem
             disableTransitionOnChange
         >
-            <Toaster className={"absolute top-2 left-1/2 transform -translate-x-1/2"}/>
             {children}
         </ThemeProvider>
         </body>

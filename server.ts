@@ -44,11 +44,20 @@ app.prepare().then(() => {
 
         socket.on("chose", (data: string) => {
             const parsedData = JSON.parse(data)
-
+            const lobby = getLobbyByPlayerId(socket.id)
+            lobby.players.find(p => p.id === socket.id)!.card = parsedData.card
+            for (const player of lobby.players) {
+                if (player.card.length < 1) return
+            }
+            io.emit("startround", (JSON.stringify({
+                lobby: lobby
+            })))
         })
 
         socket.on("disconnect", () => {
-            getLobbyByPlayerId(socket.id).removePlayer(socket.id)
+            const lobby = getLobbyByPlayerId(socket.id)
+            if (lobby)
+                lobby.removePlayer(socket.id)
             console.log("Client disconnected")
         })
     })
@@ -63,5 +72,5 @@ const playerIdToCode: { [id: string]: string } = {}
 
 const lobby = new Lobby("123", []);
 const lobbies: { [code: string]: Lobby } = {"123": lobby}
-lobbies["321"] = new Lobby("321", [new Player("Dummy 1", "id_1", "321", "", 10),
-    new Player("Dummy 2", "id_2", "321", "", 5), new Player("Dummy 3", "id_3", "321", "", 0)])
+lobbies["321"] = new Lobby("321", [new Player("Dummy 1", "id_1", "321", "Frieden finden", 10),
+    new Player("Dummy 2", "id_2", "321", "Sei du selbst", 5), new Player("Dummy 3", "id_3", "321", "Freundlich sein", 0)])

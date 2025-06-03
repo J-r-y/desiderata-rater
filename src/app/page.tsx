@@ -33,10 +33,10 @@ export default function Home() {
                 toast("Invalid Lobby Code")
             }
         })
-        // const cplayer = new PlayerType("Jry", "id_", "", "", 0)
-        // setPlayer(cplayer)
-        // setLobby(new LobbyType("123", [cplayer, new PlayerType("Dummy 1", "id_1", "", "", 10),
-        //     new PlayerType("Dummy 2", "id_2", "", "", 5), new PlayerType("Dummy 3", "id_3", "", "", 0)]))
+        const cplayer = new PlayerType("Jry", "id_", "", "", 0)
+        setPlayer(cplayer)
+        setLobby(new LobbyType("123", [cplayer, new PlayerType("Dummy 1", "id_1", "F", "", 10),
+            new PlayerType("Dummy 2", "id_2", "B", "", 5), new PlayerType("Dummy 3", "id_3", "A", "", 0)]))
 
         return () => {
             socket.close()
@@ -46,9 +46,11 @@ export default function Home() {
     return (
         <SocketProvider socket={socket!}>
             <div
-                className="flex flex-col place-content-center w-screen h-screen p-7 pb-20 gap-16 sm:p-20">
+                className="flex flex-col place-content-center w-screen h-screen p-7 pb-20 gap-16 sm:p-20 pointer-events-none">
                 {/*<main className="flex flex-col gap-[32px] w-1/2 h-1/2 row-start-2 items-center sm:items-start">*/}
+                <div className={"pointer-events-auto"}>
                     {lobby == null ? <Menu/> : <Lobby player={player!} lobby={lobby!}/>}
+                </div>
                 {/*</main>*/}
             </div>
         </SocketProvider>
