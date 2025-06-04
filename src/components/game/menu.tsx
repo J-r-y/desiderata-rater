@@ -1,4 +1,5 @@
 import {Input} from "@/components/ui/input";
+import Image from "next/image";
 import {Button} from "@/components/ui/button";
 import {FormEvent, useState} from "react";
 import {useSocket} from "@/components/provider/socket-provider";
@@ -17,8 +18,14 @@ export default function Menu() {
             }))
         }
     }
+
+    const createLobby = () => {
+
+    }
+
     return (
         <div className="flex flex-col gap-2 items-center">
+            <Image className={"rounded-xl shadow-[0_0_1rem_10px_#222831] absolute top-1/5 left-1/2 w-[500px] h-[300px] transform -translate-1/2"} alt={"logo"} src={"/logo.svg"}/>
             <div className="flex w-full max-w-sm items-center">
                 <Input type={"text"} id={"nameinput"} placeholder={"Username"}/>
             </div>
@@ -28,6 +35,9 @@ export default function Menu() {
                     Join Lobby
                 </Button>
             </div>
+            <Button variant={"outline"} onClick={createLobby}>
+                Create new Lobby
+            </Button>
         </div>
     )
 }

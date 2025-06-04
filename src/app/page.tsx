@@ -28,9 +28,9 @@ export default function Home() {
                 setLobby(payload.lobby)
                 setPlayer(payload.player)
                 console.log(payload.lobby)
-                toast("Joined Lobby", {description: payload.lobby.code})
+                toast("Joined Lobby", {description: payload.lobby.code, position: "top-center", closeButton: true})
             } else {
-                toast("Invalid Lobby Code")
+                toast("Invalid Lobby Code", {closeButton: true})
             }
         })
         // const cplayer = new PlayerType("Jry", "id_", "", "", 0)

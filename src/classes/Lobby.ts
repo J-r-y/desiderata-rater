@@ -14,7 +14,7 @@ class Lobby {
     }
 
     removePlayer(playerId: string) {
-        this.players.filter(p => p.id !== playerId)
+        this.players = this.players.filter(p => p.id !== playerId)
     }
 }
 

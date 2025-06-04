@@ -69,9 +69,11 @@ app.prepare().then(() => {
 
         socket.on("disconnect", () => {
             const lobby = getLobbyByPlayerId(socket.id)
-            if (lobby)
+            if (lobby) {
                 lobby.removePlayer(socket.id)
-            console.log("Client disconnected")
+                console.log(`Remove '${socket.id}' from lobby '${lobby.code}'`)
+            }
+            console.log(`Client '${socket.id}' disconnected`)
         })
     })
 })

@@ -20,7 +20,17 @@ export function Lobby(props: { player: PlayerType, lobby: LobbyType }) {
     const [players, setPlayers] = useState<PlayerType[]>(lobby.players.filter(p => p.id !== player.id))
     const {socket} = useSocket()
 
+    const selectCard = (card: string) => {
+        socket.emit("chose", JSON.stringify({
+            card: card,
+        }))
+    }
+
     useEffect(() => {
+        const filterPlayers = (players: PlayerType[]) => {
+            setPlayers(players.filter(p => p.id !== player.id))
+        }
+
         socket.on("startround", (data: string) => {
             const payload = JSON.parse(data)
             setLobby(payload.lobby)
@@ -36,17 +46,7 @@ export function Lobby(props: { player: PlayerType, lobby: LobbyType }) {
 
             console.log(lobby)
         })
-    }, [])
-
-    const filterPlayers = (players: PlayerType[]) => {
-        setPlayers(players.filter(p => p.id !== player.id))
-    }
-
-    const selectCard = (card: string) => {
-        socket.emit("chose", JSON.stringify({
-            card: card,
-        }))
-    }
+    }, [lobby, socket, player])
 
     return (
         <div className={"flex flex-col items-center justify-center"}>
