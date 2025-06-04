@@ -43,15 +43,28 @@ app.prepare().then(() => {
         })
 
         socket.on("chose", (data: string) => {
-            const parsedData = JSON.parse(data)
+            const payload = JSON.parse(data)
             const lobby = getLobbyByPlayerId(socket.id)
-            lobby.players.find(p => p.id === socket.id)!.card = parsedData.card
+            lobby.players.find(p => p.id === socket.id)!.card = payload.card
             for (const player of lobby.players) {
                 if (player.card.length < 1) return
             }
             io.emit("startround", (JSON.stringify({
                 lobby: lobby
             })))
+        })
+
+        socket.on("updatescore", (data: string) => {
+            const payload = JSON.parse(data)
+            const lobby = getLobbyByPlayerId(socket.id)
+            const player = lobby.players.find(p => p.id === socket.id)!
+            player.points += payload.score
+            player.card = ""
+
+            for (const p of lobby.players) if (p.card.length < 1) return
+            io.emit("restart", JSON.stringify({
+                lobby: lobby
+            }))
         })
 
         socket.on("disconnect", () => {

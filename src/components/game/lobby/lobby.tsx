@@ -13,17 +13,28 @@ const GameState = {
     GAME: "game",
 }
 
-export function Lobby({player, lobby}: { player: PlayerType, lobby: LobbyType }) {
-    const [state, setState] = useState<string>(GameState.GAME)
+export function Lobby(props: { player: PlayerType, lobby: LobbyType }) {
+    const [state, setState] = useState<string>(GameState.SELECT)
+    const [player, setPlayer] = useState<PlayerType>(props.player)
+    const [lobby, setLobby] = useState<LobbyType>(props.lobby)
     const [players, setPlayers] = useState<PlayerType[]>(lobby.players.filter(p => p.id !== player.id))
     const {socket} = useSocket()
 
     useEffect(() => {
         socket.on("startround", (data: string) => {
             const payload = JSON.parse(data)
-            lobby = payload.lobby
+            setLobby(payload.lobby)
             filterPlayers(lobby.players)
             setState(GameState.GAME)
+        })
+
+        socket.on("restart", (data: string) => {
+            const payload = JSON.parse(data)
+            setLobby(payload.lobby)
+            filterPlayers(lobby.players)
+            setState(GameState.SELECT)
+
+            console.log(lobby)
         })
     }, [])
 
@@ -45,13 +56,13 @@ export function Lobby({player, lobby}: { player: PlayerType, lobby: LobbyType })
                 </CardHeader>
                 <CardContent>
                     <ul>
-                        {lobby.players.map((player, i) => <li key={i}>{player.name}: {player.points}</li>)}
+                        {lobby.players.sort((a, b) => b.points - a.points).map((player, i) => <li key={i}>{player.name}: {player.points}</li>)}
                     </ul>
                 </CardContent>
             </Card>
             {{
                 select: <CardSelect callback={selectCard}/>,
-                game: <Game players={players}/>,
+                game: <Game lobby={lobby}/>,
             }[state]}
         </div>
     )

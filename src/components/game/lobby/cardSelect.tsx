@@ -18,6 +18,7 @@ import {
     DrawerTitle,
     DrawerTrigger
 } from "@/components/ui/drawer";
+import {DialogDescription} from "@radix-ui/react-dialog";
 
 const unselectedStyle = "text-xl h-12 " + "shadow-sm shadow-zinc-800"
 const selectedStyle = "text-xl h-12 " + "bg-zinc-800/50 shadow-[inset_0_0_4px_2px_rgba(255,255,255,30%)]"
@@ -37,7 +38,7 @@ export default function CardSelect({ callback }: { callback: (card: string) => v
     return (
         <Drawer>
             <DrawerTrigger asChild>
-                <Button variant={"outline"} className={"text-3xl h-12 cursor-pointer"}>Desiderata auswählen</Button>
+                <Button variant={selected.length > 0 ? "default" : "outline"} className={"text-3xl h-12 cursor-pointer"}>{selected.length > 0 ? selected : "Desiderata auswählen"}</Button>
             </DrawerTrigger>
             <DrawerContent className={"flex flex-col gap-10 items-center justify-center w-50vw"}>
                 <DrawerHeader>
@@ -66,6 +67,7 @@ export default function CardSelect({ callback }: { callback: (card: string) => v
         //         <DialogHeader>
         //             <DialogTitle className={"text-3xl"}>Desiderata auswählen</DialogTitle>
         //         </DialogHeader>
+        // <DialogDescription></DialogDescription>
         //         <div className={"flex gap-2 content-center justify-center flex-wrap"}>
         //             {desideratas!.map((desiderata, i) => <Button key={i} variant={"secondary"}
         //                                                          onClick={(e) => setSelected(e.currentTarget.innerText)}
