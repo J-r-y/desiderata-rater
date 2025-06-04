@@ -27,16 +27,16 @@ export default function Menu() {
         <div className="flex flex-col gap-2 items-center">
             <Image className={"rounded-xl shadow-[0_0_1rem_10px_#222831] absolute top-1/5 left-1/2 w-[500px] h-[300px] transform -translate-1/2"} alt={"logo"} src={"/logo.svg"}/>
             <div className="flex w-full max-w-sm items-center">
-                <Input type={"text"} id={"nameinput"} placeholder={"Username"}/>
+                <Input type={"text"} id={"nameinput"} placeholder={"Name"}/>
             </div>
             <div className="flex w-full max-w-sm items-center gap-2">
-                <Input type={"text"} placeholder={"Enter Lobby Code"}/>
+                <Input type={"text"} placeholder={"Lobby Code eingeben"}/>
                 <Button type={"submit"} variant={"outline"} onClick={tryJoin}>
-                    Join Lobby
+                    Lobby beitreten
                 </Button>
             </div>
             <Button variant={"outline"} onClick={createLobby}>
-                Create new Lobby
+                Neue Lobby erstellen
             </Button>
         </div>
     )
