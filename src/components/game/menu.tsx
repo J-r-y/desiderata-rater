@@ -6,10 +6,10 @@ import {useSocket} from "@/components/provider/socket-provider";
 
 export default function Menu() {
     const [name, setName] = useState<string>("")
+    const [code, setCode] = useState<string>("")
     const {socket} = useSocket()
 
     const tryJoin = (e: FormEvent<HTMLButtonElement>) => {
-        const code = ((e.target as HTMLButtonElement).previousSibling as HTMLInputElement).value
         const name = (document.getElementById("nameinput") as HTMLInputElement).value
         if (socket) {
             socket.emit("tryJoin", JSON.stringify({
@@ -20,7 +20,11 @@ export default function Menu() {
     }
 
     const createLobby = () => {
-
+        if (socket) {
+            socket.emit("createlobby", JSON.stringify({
+                name: name,
+            }))
+        }
     }
 
     return (
@@ -30,7 +34,7 @@ export default function Menu() {
                 <Input type={"text"} id={"nameinput"} placeholder={"Name"}/>
             </div>
             <div className="flex w-full max-w-sm items-center gap-2">
-                <Input type={"text"} placeholder={"Lobby Code eingeben"}/>
+                <Input type={"text"} onChange={setCode} value={code} placeholder={"Lobby Code eingeben"}/>
                 <Button type={"submit"} variant={"outline"} onClick={tryJoin}>
                     Lobby beitreten
                 </Button>
