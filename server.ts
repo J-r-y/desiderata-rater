@@ -45,8 +45,9 @@ app.prepare().then(() => {
         socket.on("createlobby", (data: string) => {
             const payload = JSON.parse(data)
             const lobby = createLobby()
-            const player = new Player(payload.name, socket.id, "", "", 0)
+            const player = new Player(payload.name, socket.id, lobby.code, "", 0)
             lobby.addPlayer(player)
+            console.log(lobby.players)
 
             socket.emit("join", JSON.stringify({
                 lobby: lobby,
@@ -90,22 +91,23 @@ app.prepare().then(() => {
     })
 })
 
-const getLobbyByPlayerId = (playerId: string) => {
+const getLobbyByPlayerId = (playerId: string): Lobby => {
     const lobbyCode = playerIdToCode[playerId]
     return lobbies[lobbyCode]
 }
 
-const genLobbyCode = () => {
+const genLobbyCode = (): string => {
     let code = ""
     for (let i = 0; i < 4; i++)
         code += Math.floor(Math.random() * 10).toString()
     return code
 }
 
-const createLobby = () => {
+const createLobby = (): Lobby => {
     const lobbyCode = genLobbyCode()
     const lobby = new Lobby(lobbyCode, [])
     lobbies[lobbyCode] = lobby
+    console.log("Created lobby: ", lobby.code)
     return lobby
 }
 

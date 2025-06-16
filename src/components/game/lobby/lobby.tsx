@@ -4,7 +4,7 @@ import {default as LobbyType} from "@/classes/Lobby";
 import {default as PlayerType} from "@/classes/Player";
 import {useEffect, useState} from "react";
 import CardSelect from "@/components/game/lobby/cardSelect";
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {useSocket} from "@/components/provider/socket-provider";
 import Game from "@/components/game/lobby/game";
 
@@ -28,14 +28,19 @@ export function Lobby(props: { player: PlayerType, lobby: LobbyType }) {
         }))
     }
 
-    const choseGameCards = (): string[] => {
-        const scrambled = allCards.sort(() => Math.random() - 0.5)
-        return scrambled.slice(0, 3)
-    }
 
     useEffect(() => {
-        fetch("/desideratas.json").then(res => res.json()).then(data => setAllCards(data.list!))
-        setCards(choseGameCards())
+        const choseGameCards = (): string[] => {
+            const scrambled = allCards.sort(() => Math.random() - 0.5)
+            return scrambled.slice(0, 3)
+        }
+
+        fetch("/desideratas.json").then(res => res.json()).then(data => {
+            setAllCards(data.list!)
+            console.log(allCards)
+            setCards(choseGameCards())
+            console.log(cards)
+        })
 
         const filterPlayers = (players: PlayerType[]) => {
             setPlayers(players.filter(p => p.id !== player.id))
@@ -54,10 +59,8 @@ export function Lobby(props: { player: PlayerType, lobby: LobbyType }) {
             filterPlayers(lobby.players)
             setState(GameState.SELECT)
             setCards(choseGameCards())
-
-            console.log(lobby)
         })
-    }, [lobby, socket, player, choseGameCards])
+    }, [lobby, socket, player])
 
     return (
         <div className={"flex flex-col items-center justify-center"}>
@@ -65,11 +68,14 @@ export function Lobby(props: { player: PlayerType, lobby: LobbyType }) {
                 <CardHeader>
                     <CardTitle>Punkte</CardTitle>
                 </CardHeader>
+                <CardDescription className={"pl-5"}>
+                    Lobby Code: {lobby.code}
+                </CardDescription>
                 <CardContent>
                     <ul>
-                        {lobby.players.sort((a, b) => b.points - a.points).map((player, i) => <li key={i}>{player.name}: {player.points}</li>)}
+                        {lobby.players.sort((a, b) => b.points - a.points).map((player, i) => <li
+                            key={i}>{player.name}: {player.points}</li>)}
                     </ul>
-                    Lobby Code: {lobby.code}
                 </CardContent>
             </Card>
             {{
