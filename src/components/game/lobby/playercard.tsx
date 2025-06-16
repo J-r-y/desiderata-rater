@@ -6,10 +6,11 @@ import "@/app/game.css"
 import CardSelect from "@/components/game/lobby/cardSelect";
 import {useEffect, useState} from "react";
 
-export default function PlayerCard({player, index, status, callback}: {
+export default function PlayerCard({player, index, status, cardOptions, callback}: {
     player: PlayerType,
     index: number,
     status: string,
+    cardOptions: string[],
     callback: (playerId: string, card: string) => void
 }) {
     const [statusStyle, setStatusStyle] = useState<string>("")
@@ -30,7 +31,7 @@ export default function PlayerCard({player, index, status, callback}: {
                 <CardTitle className={"text-1xl"}>{player.name}</CardTitle>
             </CardHeader>
             <CardContent>
-                <CardSelect callback={cardCallback}/>
+                <CardSelect cards={cardOptions} callback={cardCallback}/>
             </CardContent>
         </Card>
     )

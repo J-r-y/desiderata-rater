@@ -23,17 +23,12 @@ import {DialogDescription} from "@radix-ui/react-dialog";
 const unselectedStyle = "text-xl h-12 " + "shadow-sm shadow-zinc-800"
 const selectedStyle = "text-xl h-12 " + "bg-zinc-800/50 shadow-[inset_0_0_4px_2px_rgba(255,255,255,30%)]"
 
-export default function CardSelect({ callback }: { callback: (card: string) => void}) {
-    const [desideratas, setDesideratas] = useState<string[]>([])
+export default function CardSelect({ cards, callback }: { cards: string[], callback: (card: string) => void}) {
     const [selected, setSelected] = useState<string>("")
 
     const selectCard = () => {
         callback(selected)
     }
-
-    useEffect(() => {
-        fetch("/desideratas.json").then(res => res.json()).then(data => setDesideratas(data.list!))
-    }, []);
 
     return (
         <Drawer>
@@ -46,7 +41,7 @@ export default function CardSelect({ callback }: { callback: (card: string) => v
                 </DrawerHeader>
                 <DrawerDescription></DrawerDescription>
                 <div className={"flex gap-2 content-center justify-center flex-wrap"}>
-                    {desideratas!.map((desiderata, i) => <Button key={i} variant={"secondary"}
+                    {cards.map((desiderata, i) => <Button key={i} variant={"secondary"}
                                                                  onClick={(e) => setSelected(e.currentTarget.innerText)}
                                                                  className={selected == desiderata ? selectedStyle : unselectedStyle}>{desiderata}</Button>
                     )}

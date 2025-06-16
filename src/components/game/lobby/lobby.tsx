@@ -18,6 +18,8 @@ export function Lobby(props: { player: PlayerType, lobby: LobbyType }) {
     const [player, setPlayer] = useState<PlayerType>(props.player)
     const [lobby, setLobby] = useState<LobbyType>(props.lobby)
     const [players, setPlayers] = useState<PlayerType[]>(lobby.players.filter(p => p.id !== player.id))
+    const [allCards, setAllCards] = useState<String[]>([])
+    const [cards, setCards] = useState<String[]>([])
     const {socket} = useSocket()
 
     const selectCard = (card: string) => {
@@ -26,7 +28,15 @@ export function Lobby(props: { player: PlayerType, lobby: LobbyType }) {
         }))
     }
 
+    const choseGameCards = (): String[] => {
+        const scrambled = allCards.sort(() => Math.random() - 0.5)
+        return scrambled.slice(0, 3)
+    }
+
     useEffect(() => {
+        fetch("/desideratas.json").then(res => res.json()).then(data => setAllCards(data.list!))
+        setCards(choseGameCards())
+
         const filterPlayers = (players: PlayerType[]) => {
             setPlayers(players.filter(p => p.id !== player.id))
         }
@@ -43,6 +53,7 @@ export function Lobby(props: { player: PlayerType, lobby: LobbyType }) {
             setLobby(payload.lobby)
             filterPlayers(lobby.players)
             setState(GameState.SELECT)
+            setCards(choseGameCards())
 
             console.log(lobby)
         })
@@ -62,8 +73,8 @@ export function Lobby(props: { player: PlayerType, lobby: LobbyType }) {
                 </CardContent>
             </Card>
             {{
-                select: <CardSelect callback={selectCard}/>,
-                game: <Game lobby={lobby}/>,
+                select: <CardSelect cards={cards} callback={selectCard}/>,
+                game: <Game cards={cards} lobby={lobby}/>,
             }[state]}
         </div>
     )

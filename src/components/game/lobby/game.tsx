@@ -7,7 +7,7 @@ import {useEffect, useState} from "react";
 import {useSocket} from "@/components/provider/socket-provider";
 import {Button} from "@/components/ui/button";
 
-export default function Game({lobby}: { lobby: LobbyType }) {
+export default function Game({lobby, cards}: { lobby: LobbyType, cards: String[] }) {
     const {socket} = useSocket()
     const [players, setPlayers] = useState<PlayerType[]>(lobby.players.filter(p => p.id !== socket.id))
     const [canSubmit, setCanSubmit] = useState<boolean>(false);
@@ -42,7 +42,7 @@ export default function Game({lobby}: { lobby: LobbyType }) {
 
     return (
         <div>
-            {players.map(((player, i) => <PlayerCard key={i} index={i} player={player} status={stati[player.id]} callback={chose}/>))}
+            {players.map(((player, i) => <PlayerCard key={i} index={i} player={player} status={stati[player.id]} cardOptions={cards} callback={chose}/>))}
             {canSubmit ? <Button
                 className={"focus:bg-zinc-600 cursor-pointer shadow-[0_0_0.5rem_#ddd] text-3xl p-8 absolute left-1/2 bottom-1/5 transform -translate-1/2"}
                 variant={"default"} onClick={submit}>Tipps abschicken</Button> : ""}

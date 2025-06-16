@@ -23,7 +23,7 @@ export default function RootLayout({children}: Readonly<{ children: React.ReactN
         <Toaster/>
         <ThemeProvider
             attribute={"class"}
-            defaultTheme={"light"}
+            defaultTheme={"dark"}
             enableSystem
             disableTransitionOnChange
         >
