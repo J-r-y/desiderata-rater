@@ -29,7 +29,7 @@ export default function Menu() {
 
     return (
         <div className="flex flex-col gap-2 items-center">
-            <Image className={"rounded-xl shadow-[0_0_1rem_10px_#222831] absolute top-1/5 left-1/2 w-[500px] h-[300px] transform -translate-1/2"} alt={"logo"} src={"/logo.svg"}/>
+            {/* <Image className={"rounded-xl shadow-[0_0_1rem_10px_#222831] absolute top-1/5 left-1/2 w-[500px] h-[300px] transform -translate-1/2"} alt={"logo"} src={"/logo.svg"}/> */}
             <div className="flex w-full max-w-sm items-center">
                 <Input type={"text"} id={"nameinput"} placeholder={"Name"}/>
             </div>

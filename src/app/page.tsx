@@ -14,7 +14,6 @@ export default function Home() {
     const [lobby, setLobby] = useState<LobbyType>()
     const [player, setPlayer] = useState<PlayerType>()
 
-
     useEffect(() => {
         const socket = io()
         setSocket(socket)

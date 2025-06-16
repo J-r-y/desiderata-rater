@@ -58,6 +58,7 @@ export function Lobby(props: { player: PlayerType, lobby: LobbyType }) {
                     <ul>
                         {lobby.players.sort((a, b) => b.points - a.points).map((player, i) => <li key={i}>{player.name}: {player.points}</li>)}
                     </ul>
+                    Lobby Code: {lobby.code}
                 </CardContent>
             </Card>
             {{
