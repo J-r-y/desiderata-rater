@@ -18,8 +18,8 @@ export function Lobby(props: { player: PlayerType, lobby: LobbyType }) {
     const [player, setPlayer] = useState<PlayerType>(props.player)
     const [lobby, setLobby] = useState<LobbyType>(props.lobby)
     const [players, setPlayers] = useState<PlayerType[]>(lobby.players.filter(p => p.id !== player.id))
-    const [allCards, setAllCards] = useState<String[]>([])
-    const [cards, setCards] = useState<String[]>([])
+    const [allCards, setAllCards] = useState<string[]>([])
+    const [cards, setCards] = useState<string[]>([])
     const {socket} = useSocket()
 
     const selectCard = (card: string) => {
@@ -28,7 +28,7 @@ export function Lobby(props: { player: PlayerType, lobby: LobbyType }) {
         }))
     }
 
-    const choseGameCards = (): String[] => {
+    const choseGameCards = (): string[] => {
         const scrambled = allCards.sort(() => Math.random() - 0.5)
         return scrambled.slice(0, 3)
     }
@@ -57,7 +57,7 @@ export function Lobby(props: { player: PlayerType, lobby: LobbyType }) {
 
             console.log(lobby)
         })
-    }, [lobby, socket, player])
+    }, [lobby, socket, player, choseGameCards])
 
     return (
         <div className={"flex flex-col items-center justify-center"}>

@@ -34,7 +34,7 @@ export default function Menu() {
                 <Input type={"text"} id={"nameinput"} placeholder={"Name"}/>
             </div>
             <div className="flex w-full max-w-sm items-center gap-2">
-                <Input type={"text"} onChange={setCode} value={code} placeholder={"Lobby Code eingeben"}/>
+                <Input type={"text"} onChange={e => setCode(e.target.value)} value={code} placeholder={"Lobby Code eingeben"}/>
                 <Button type={"submit"} variant={"outline"} onClick={tryJoin}>
                     Lobby beitreten
                 </Button>

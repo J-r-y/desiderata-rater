@@ -7,7 +7,7 @@ import {useEffect, useState} from "react";
 import {useSocket} from "@/components/provider/socket-provider";
 import {Button} from "@/components/ui/button";
 
-export default function Game({lobby, cards}: { lobby: LobbyType, cards: String[] }) {
+export default function Game({lobby, cards}: { lobby: LobbyType, cards: string[] }) {
     const {socket} = useSocket()
     const [players, setPlayers] = useState<PlayerType[]>(lobby.players.filter(p => p.id !== socket.id))
     const [canSubmit, setCanSubmit] = useState<boolean>(false);
