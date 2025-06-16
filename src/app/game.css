@@ -1,5 +1,13 @@
 .playercard {
-    offset-path: circle(75% at 50% 50%);
-    offset-rotate: 0deg;
+    offset-path: ray(90deg at 50% 50%);
     offset-distance: -25%;
+    background-color: red;
+}
+
+@media (min-width: 500px) {
+    .playercard {
+        offset-path: circle(75% at 50% 50%);
+        offset-rotate: 0deg;
+        offset-distance: -25%;
+    }
 }

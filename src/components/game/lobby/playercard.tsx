@@ -5,7 +5,6 @@ import {Card, CardAction, CardContent, CardHeader, CardTitle} from "@/components
 import "@/app/game.css"
 import CardSelect from "@/components/game/lobby/cardSelect";
 import {useEffect, useState} from "react";
-import {useSocket} from "@/components/provider/socket-provider";
 
 export default function PlayerCard({player, index, status, callback}: {
     player: PlayerType,
