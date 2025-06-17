@@ -1,10 +1,12 @@
-.playercard {
-    offset-path: ray(90deg at 50% 50%);
-    offset-distance: -25%;
-    background-color: red;
+.playercard:nth-child(1) {
+    margin-top: 3rem;
 }
 
-@media (min-width: 500px) {
+.playercard {
+    margin-top: 1rem;
+}
+
+@media screen and (min-width: 1048px) {
     .playercard {
         offset-path: circle(75% at 50% 50%);
         offset-rotate: 0deg;

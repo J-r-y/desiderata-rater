@@ -46,8 +46,8 @@ app.prepare().then(() => {
             const payload = JSON.parse(data)
             const lobby = createLobby()
             const player = new Player(payload.name, socket.id, lobby.code, "", 0)
+            playerIdToCode[socket.id] = lobby.code
             lobby.addPlayer(player)
-            console.log(lobby.players)
 
             socket.emit("join", JSON.stringify({
                 lobby: lobby,
@@ -74,10 +74,13 @@ app.prepare().then(() => {
             player.points += payload.score
             player.card = ""
 
-            for (const p of lobby.players) if (p.card.length < 1) return
-            io.emit("restart", JSON.stringify({
-                lobby: lobby
-            }))
+            for (const p of lobby.players) if (p.card.length > 0) return
+            lobby.scrambleCards()
+            setTimeout(() => {
+                io.emit("restart", JSON.stringify({
+                    lobby: lobby
+                }))
+            }, 4000)
         })
 
         socket.on("disconnect", () => {

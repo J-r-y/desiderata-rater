@@ -18,7 +18,6 @@ export function Lobby(props: { player: PlayerType, lobby: LobbyType }) {
     const [player, setPlayer] = useState<PlayerType>(props.player)
     const [lobby, setLobby] = useState<LobbyType>(props.lobby)
     const [players, setPlayers] = useState<PlayerType[]>(lobby.players.filter(p => p.id !== player.id))
-    const [allCards, setAllCards] = useState<string[]>([])
     const [cards, setCards] = useState<string[]>([])
     const {socket} = useSocket()
 
@@ -28,19 +27,8 @@ export function Lobby(props: { player: PlayerType, lobby: LobbyType }) {
         }))
     }
 
-
     useEffect(() => {
-        const choseGameCards = (): string[] => {
-            const scrambled = allCards.sort(() => Math.random() - 0.5)
-            return scrambled.slice(0, 3)
-        }
-
-        fetch("/desideratas.json").then(res => res.json()).then(data => {
-            setAllCards(data.list!)
-            console.log(allCards)
-            setCards(choseGameCards())
-            console.log(cards)
-        })
+        setCards(lobby.cards)
 
         const filterPlayers = (players: PlayerType[]) => {
             setPlayers(players.filter(p => p.id !== player.id))
@@ -58,7 +46,7 @@ export function Lobby(props: { player: PlayerType, lobby: LobbyType }) {
             setLobby(payload.lobby)
             filterPlayers(lobby.players)
             setState(GameState.SELECT)
-            setCards(choseGameCards())
+            setCards(payload.lobby.cards)
         })
     }, [lobby, socket, player])
 
@@ -68,13 +56,13 @@ export function Lobby(props: { player: PlayerType, lobby: LobbyType }) {
                 <CardHeader>
                     <CardTitle>Punkte</CardTitle>
                 </CardHeader>
-                <CardDescription className={"pl-5"}>
+                <CardDescription className={"pl-6 pr-6 mt-0 pt-0"}>
                     Lobby Code: {lobby.code}
                 </CardDescription>
                 <CardContent>
                     <ul>
-                        {lobby.players.sort((a, b) => b.points - a.points).map((player, i) => <li
-                            key={i}>{player.name}: {player.points}</li>)}
+                        {lobby.players.sort((a, b) => b.points - a.points).map((player, i) =>
+                            <li key={i}>{player.name}: {player.points}</li>)}
                     </ul>
                 </CardContent>
             </Card>

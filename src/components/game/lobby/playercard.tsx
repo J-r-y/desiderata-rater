@@ -24,7 +24,6 @@ export default function PlayerCard({player, index, status, cardOptions, callback
         callback(player.id, card)
     }
 
-
     return (
         <Card style={{offsetDistance: "calc(" + index + " * 25% - 50%"}} className={"playercard w-sm" + (status ? " pointer-events-none" : "") + statusStyle}>
             <CardHeader>

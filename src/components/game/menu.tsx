@@ -31,7 +31,7 @@ export default function Menu() {
         <div className="flex flex-col gap-2 items-center">
             {/* <Image className={"rounded-xl shadow-[0_0_1rem_10px_#222831] absolute top-1/5 left-1/2 w-[500px] h-[300px] transform -translate-1/2"} alt={"logo"} src={"/logo.svg"}/> */}
             <div className="flex w-full max-w-sm items-center">
-                <Input type={"text"} id={"nameinput"} placeholder={"Name"}/>
+                <Input type={"text"} id={"nameinput"} onChange={e => setName(e.target.value)} value={name} placeholder={"Name"}/>
             </div>
             <div className="flex w-full max-w-sm items-center gap-2">
                 <Input type={"text"} onChange={e => setCode(e.target.value)} value={code} placeholder={"Lobby Code eingeben"}/>
