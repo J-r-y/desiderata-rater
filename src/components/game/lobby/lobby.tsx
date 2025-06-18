@@ -52,7 +52,7 @@ export function Lobby(props: { player: PlayerType, lobby: LobbyType }) {
     }, [lobby, socket, player])
 
     return (
-        <div className={"flex flex-col items-center justify-center"}>
+        <div className={"flex flex-col w-screen h-screen items-center justify-center"}>
             <Card className={"absolute top-5 left-5 min-w-24 gap-2"} onClick={() => setShowPoints(!showPoints)}>
                 <CardHeader>
                     <CardTitle>Punkte</CardTitle>
